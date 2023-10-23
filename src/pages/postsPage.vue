@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Cтраница с постами</h1>
-    <my-input v-model="searchQuery" placeholder="Поиск..." />
+    <my-input v-focus v-model="searchQuery" placeholder="Поиск..." />
     <div class="app__btns">
       <my-button @click="showModalDialog">Cоздать пост</my-button>
       <my-select v-model="selectedSort" :options="sortOptions" />
@@ -15,7 +15,7 @@
       v-if="!isPostsLoading"
     />
     <div v-else>Идет загрузка...</div>
-    <div ref="observer" class="observer"></div>
+    <div v-intersection="loadMorePosts" class="observer"></div>
     <!-- <div class="page__wrapper">
         <div
           v-for="pageNumber in totalPages"
@@ -116,17 +116,17 @@ export default {
   },
   mounted() {
     this.fetchPosts();
-    const options = {
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-    const callback = (entries, observer) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) {
-        this.loadMorePosts();
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
+    // const options = {
+    //   rootMargin: "0px",
+    //   threshold: 1.0,
+    // };
+    // const callback = (entries, observer) => {
+    //   if (entries[0].isIntersecting && this.page < this.totalPages) {
+    //     this.loadMorePosts();
+    //   }
+    // };
+    // const observer = new IntersectionObserver(callback, options);
+    // observer.observe(this.$refs.observer);
   },
   computed: {
     sortedPosts() {
